@@ -1,0 +1,14 @@
+security:
+    app:
+        jwtExpirationMs: 86400000
+        jwtSecret: ======================MegiNako=Spring===========================
+server:
+    port: 8080
+    servlet:
+        context-path: /wh
+spring:
+    data:
+        mongodb:
+            database: Warehouse
+            host: localhost
+            port: 27017
