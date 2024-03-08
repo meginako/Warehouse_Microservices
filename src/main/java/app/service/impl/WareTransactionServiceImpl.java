@@ -89,19 +89,11 @@ public class WareTransactionServiceImpl implements WareTransactionService {
                 WareTransactionDetail wTxDetail = new WareTransactionDetail();
                 BeanUtils.copyProperties(wTxDetailDto, wTxDetail);
 
-                Product product = this.productRepository
-                        .findById(wTxDetailDto.getProductId())
-                        .orElse(null);
-                if (product != null) {
-                    wTxDetail.setProduct(product);
-                }
+                this.productRepository
+                        .findById(wTxDetailDto.getProductId()).ifPresent(wTxDetail::setProduct);
 
-                Shelf shelf = this.shelfRepository
-                        .findById(wTxDetailDto.getShelfId())
-                        .orElse(null);
-                if (shelf != null) {
-                    wTxDetail.setShelf(shelf);
-                }
+                this.shelfRepository
+                        .findById(wTxDetailDto.getShelfId()).ifPresent(wTxDetail::setShelf);
 
                 wTxDetail.setWareTransaction(wareTransaction);
                 wareTransactionDetails.add(wTxDetail);

@@ -3,7 +3,6 @@ package app.service.impl;
 import app.dto.ShelfDto;
 import app.exception.ResourceNotFoundException;
 import app.model.Shelf;
-import app.model.Warehouse;
 import app.repository.ShelfRepository;
 import app.repository.WarehouseRepository;
 import app.service.ShelfService;

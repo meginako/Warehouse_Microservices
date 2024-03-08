@@ -2,9 +2,6 @@ package app.service.impl;
 
 import app.dto.WareTransactionDetailDto;
 import app.exception.ResourceNotFoundException;
-import app.model.Product;
-import app.model.Shelf;
-import app.model.WareTransaction;
 import app.model.WareTransactionDetail;
 import app.repository.ProductRepository;
 import app.repository.ShelfRepository;
