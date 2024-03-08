@@ -46,7 +46,7 @@ public class ShelfServiceImpl implements ShelfService {
         return this.shelfRepository
                 .findAll()
                 .stream()
-                .map(shelf -> new ShelfDto(shelf))
+                .map(ShelfDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -69,13 +69,9 @@ public class ShelfServiceImpl implements ShelfService {
 
         String warehouseId = shelfDto.getWarehouseId();
         if (warehouseId != null) {
-            Warehouse warehouse = this.warehouseRepository
-                    .findById(warehouseId)
-                    .orElse(null);
+            this.warehouseRepository
+                    .findById(warehouseId).ifPresent(shelf::setWarehouse);
 
-            if (warehouse != null) {
-                shelf.setWarehouse(warehouse);
-            }
         }
         return shelf;
     }

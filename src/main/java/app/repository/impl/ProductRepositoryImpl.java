@@ -1,19 +1,20 @@
 package app.repository.impl;
 
-import app.common.search.QueryExecutor;
 import app.common.search.PageSearchResult;
-import app.common.utils.SearchUtils;
-import app.enums.MeasurementUnit;
 import app.model.Product;
 //import app.model.QProduct;
 import app.repository.ProductRepositoryCustom;
 import app.search.ProductSearchCriteria;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-
-public class ProductRepositoryImpl extends QueryExecutor implements ProductRepositoryCustom {
+@Service
+public class ProductRepositoryImpl implements ProductRepositoryCustom {
+    @Autowired
+    MongoTemplate mongoTemplate;
+    //TODO CREATE QUERY LOGIC
     @Override
     public PageSearchResult<Product> search(ProductSearchCriteria criteria) {
         return null;

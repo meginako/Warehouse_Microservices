@@ -1,6 +1,6 @@
 package app.repository;
 
-import app.model.ERole;
+import app.enums.ERole;
 import app.model.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository
                 .findAll()
                 .stream()
-                .map(product -> new ProductDto(product))
+                .map(ProductDto::new)
                 .collect(Collectors.toList());
     }
 

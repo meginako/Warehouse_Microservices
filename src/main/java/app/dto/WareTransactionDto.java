@@ -36,7 +36,7 @@ public class WareTransactionDto {
         }
 
         List<WareTransactionDetail> wareTransactionDetails = wareTransaction.getWareTransactionDetails();
-        if (wareTransactionDetails != null && wareTransactionDetails.size() > 0) {
+        if (wareTransactionDetails != null && !wareTransactionDetails.isEmpty()) {
             wareTransactionDetails.forEach(wTxDetails -> {
                 this.wareTransactionDetails.add(new WareTransactionDetailDto(wTxDetails));
             });

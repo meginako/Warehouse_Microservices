@@ -1,12 +1,19 @@
 package app.repository.impl;
 
 import app.common.search.PageSearchResult;
-import app.common.search.QueryExecutor;
 import app.model.Stock;
 import app.repository.StockRepositoryCustom;
 import app.search.StockSearchCriteria;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Service;
 
-public class StockRepositoryImpl extends QueryExecutor implements StockRepositoryCustom {
+@Service
+public class StockRepositoryImpl implements StockRepositoryCustom {
+    @Autowired
+    MongoTemplate mongoTemplate;
+
+    //TODO CREATE QUERY LOGIC
     @Override
     public PageSearchResult<Stock> search(StockSearchCriteria criteria) {
         return null;

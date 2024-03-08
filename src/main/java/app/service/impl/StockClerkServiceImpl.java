@@ -41,7 +41,7 @@ public class StockClerkServiceImpl implements StockClerkService {
         return this.stockClerkRepository
                 .findAll()
                 .stream()
-                .map(stockClerk -> new StockClerkDto(stockClerk))
+                .map(StockClerkDto::new)
                 .collect(Collectors.toList());
     }
 

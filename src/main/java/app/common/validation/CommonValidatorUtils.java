@@ -37,11 +37,9 @@ public class CommonValidatorUtils<T, S> {
         }
 
         // Update case
-        if(checkingObjId != null) {
-            // Trying to update an object, using a taken(not unique) value
-            if(checkingObjId != foundObjId) {
-                throw new FieldNotUniqueException(checkingObjFieldValue);
-            }
+        // Trying to update an object, using a taken(not unique) value
+        if(checkingObjId != foundObjId) {
+            throw new FieldNotUniqueException(checkingObjFieldValue);
         }
     }
 

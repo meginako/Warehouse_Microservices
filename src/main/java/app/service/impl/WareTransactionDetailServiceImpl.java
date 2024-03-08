@@ -52,7 +52,7 @@ public class WareTransactionDetailServiceImpl implements WareTransactionDetailSe
         return this.wareTransactionDetailRepository
                 .findByWareTransactionId(wareTransactionId)
                 .stream()
-                .map(wTxDetail -> new WareTransactionDetailDto(wTxDetail))
+                .map(WareTransactionDetailDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -62,35 +62,23 @@ public class WareTransactionDetailServiceImpl implements WareTransactionDetailSe
 
         String wareTransactionId = wareTransactionDetailDto.getWareTransactionId();
         if (wareTransactionId != null) {
-            WareTransaction wareTransaction = this.wareTransactionRepository
-                    .findById(wareTransactionId)
-                    .orElse(null);
+            this.wareTransactionRepository
+                    .findById(wareTransactionId).ifPresent(wTxDetail::setWareTransaction);
 
-            if (wareTransaction != null) {
-                wTxDetail.setWareTransaction(wareTransaction);
-            }
         }
 
         String productId = wareTransactionDetailDto.getProductId();
         if (productId != null) {
-            Product product = this.productRepository
-                    .findById(productId)
-                    .orElse(null);
+            this.productRepository
+                    .findById(productId).ifPresent(wTxDetail::setProduct);
 
-            if (product != null) {
-                wTxDetail.setProduct(product);
-            }
         }
 
         String shelfId = wareTransactionDetailDto.getShelfId();
         if (shelfId != null) {
-            Shelf shelf = this.shelfRepository
-                    .findById(shelfId)
-                    .orElse(null);
+            this.shelfRepository
+                    .findById(shelfId).ifPresent(wTxDetail::setShelf);
 
-            if (shelf != null) {
-                wTxDetail.setShelf(shelf);
-            }
         }
         return wTxDetail;
     }

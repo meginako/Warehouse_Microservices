@@ -55,7 +55,7 @@ public class WareTransactionServiceImpl implements WareTransactionService {
         return this.wareTransactionRepository
                 .findAll()
                 .stream()
-                .map(wareTx -> new WareTransactionDto(wareTx))
+                .map(WareTransactionDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -84,7 +84,7 @@ public class WareTransactionServiceImpl implements WareTransactionService {
         wareTransaction.setStockClerk(stockClerk);
 
         List<WareTransactionDetailDto> wareTransactionDetailDtos = wareTransactionDto.getWareTransactionDetails();
-        if(wareTransactionDetailDtos != null && wareTransactionDetailDtos.size() > 0) {
+        if(wareTransactionDetailDtos != null && !wareTransactionDetailDtos.isEmpty()) {
             for(WareTransactionDetailDto wTxDetailDto : wareTransactionDetailDtos) {
                 WareTransactionDetail wTxDetail = new WareTransactionDetail();
                 BeanUtils.copyProperties(wTxDetailDto, wTxDetail);

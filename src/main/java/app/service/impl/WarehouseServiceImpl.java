@@ -44,7 +44,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         return this.warehouseRepository
                 .findAll()
                 .stream()
-                .map(warehouse -> new WarehouseDto(warehouse))
+                .map(WarehouseDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -68,7 +68,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         BeanUtils.copyProperties(warehouseDto, warehouse, "shelves");
 
         List<ShelfDto> shelfDtos = warehouseDto.getShelves();
-        if(shelfDtos != null && shelfDtos.size() > 0) {
+        if(shelfDtos != null && !shelfDtos.isEmpty()) {
             shelfDtos.forEach(shelfDto -> {
                 Shelf shelf = new Shelf();
                 BeanUtils.copyProperties(shelfDto, shelf);

@@ -1,6 +1,6 @@
 security:
     app:
-        jwtExpirationMs: 86400000
+        jwtExpirationMs: 86400000 #24 hours
         jwtSecret: ======================MegiNako=Spring===========================
 server:
     port: 8080

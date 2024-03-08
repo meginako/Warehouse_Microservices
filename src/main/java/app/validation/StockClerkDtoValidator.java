@@ -34,12 +34,10 @@ public class StockClerkDtoValidator implements BaseValidator<StockClerkDto> {
     }
 
     private void validateUniqueRegistryNumber(StockClerkDto stockClerkDto) {
-        StockClerk stockClerk = this.stockClerkRepository
+        this.stockClerkRepository
                 .findByRegistryNumber(stockClerkDto.getRegistryNumber())
-                .orElse(null);
+                .ifPresent(stockClerk ->
+                        this.commonValidatorUtils.validateUniqueField(FIELD_REGISTRY_NUMBER, stockClerkDto, stockClerk));
 
-        if (stockClerk != null) {
-            this.commonValidatorUtils.validateUniqueField(FIELD_REGISTRY_NUMBER, stockClerkDto, stockClerk);
-        }
     }
 }

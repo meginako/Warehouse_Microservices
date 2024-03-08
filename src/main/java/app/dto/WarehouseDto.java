@@ -21,7 +21,7 @@ public class WarehouseDto {
         BeanUtils.copyProperties(warehouse, this, "shelves");
 
         List<Shelf> shelves = warehouse.getShelves();
-        if(shelves != null && shelves.size() > 0) {
+        if(shelves != null && !shelves.isEmpty()) {
             shelves.forEach(shelf -> {
                 ShelfDto shelfDto = new ShelfDto(shelf);
                 this.shelves.add(shelfDto);
