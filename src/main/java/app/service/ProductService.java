@@ -1,8 +1,10 @@
 package app.service;
 
-import app.common.search.PageSearchResult;
+import app.common.search.BaseSearchCriteria;
 import app.dto.ProductDto;
-import app.search.ProductSearchCriteria;
+import app.model.Product;
+import app.common.search.ProductSearchCriteria;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -16,5 +18,5 @@ public interface ProductService {
 
     void deleteById(String id);
 
-    PageSearchResult<ProductDto> search(ProductSearchCriteria criteria);
+    Page<Product> search(BaseSearchCriteria<ProductSearchCriteria> criteria);
 }

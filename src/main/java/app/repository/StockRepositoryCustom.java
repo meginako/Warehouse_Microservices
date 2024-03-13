@@ -1,11 +1,12 @@
 package app.repository;
 
-import app.common.search.PageSearchResult;
+import app.common.search.BaseSearchCriteria;
 import app.model.Stock;
-import app.search.StockSearchCriteria;
+import app.common.search.StockSearchCriteria;
+import org.springframework.data.domain.Page;
 
 
 public interface StockRepositoryCustom {
 
-    PageSearchResult<Stock> search(StockSearchCriteria criteria);
+    Page<Stock> search(BaseSearchCriteria<StockSearchCriteria> criteria);
 }

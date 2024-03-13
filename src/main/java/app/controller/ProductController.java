@@ -1,10 +1,9 @@
 package app.controller;
 
-import app.common.search.SearchRequest;
-import app.common.search.PageSearchResult;
-import app.common.utils.SearchUtils;
+import app.common.search.BaseSearchCriteria;
 import app.dto.ProductDto;
-import app.search.ProductSearchCriteria;
+import app.model.Product;
+import app.common.search.ProductSearchCriteria;
 import app.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,10 +49,8 @@ public class ProductController {
     }
 
     @PostMapping("search")
-    public Page<ProductDto> search(@RequestBody SearchRequest searchRequest) {
-        ProductSearchCriteria criteria = SearchUtils.createSearchCriteria(searchRequest, ProductSearchCriteria.class);
-        PageSearchResult<ProductDto> pageSearchResult = this.productService.search(criteria);
-        return SearchUtils.pageOf(searchRequest, pageSearchResult);
+    public Page<Product> search(@RequestBody BaseSearchCriteria<ProductSearchCriteria> searchRequest) {
+        return this.productService.search(searchRequest);
     }
 
 }

@@ -1,11 +1,10 @@
 package app.controller;
 
-import app.common.search.PageSearchResult;
-import app.common.search.SearchRequest;
-import app.common.utils.SearchUtils;
+import app.common.search.BaseSearchCriteria;
 import app.dto.StockDto;
+import app.model.Stock;
 import app.projection.StockProjection;
-import app.search.StockSearchCriteria;
+import app.common.search.StockSearchCriteria;
 import app.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +26,9 @@ public class StockController {
     }
 
     @GetMapping("snapshot")
-    public List<StockProjection> findStockByProductAndDateTime(@RequestParam String productCode, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime date) {
+    public List<StockProjection> findStockByProductAndDateTime(
+            @RequestParam String productCode,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime date) {
         return this.stockService.findStockByProductAndDate(productCode, date);
     }
 
@@ -37,9 +38,7 @@ public class StockController {
     }
 
     @PostMapping("search")
-    public Page<StockDto> search(@RequestBody SearchRequest searchRequest) {
-        StockSearchCriteria criteria = SearchUtils.createSearchCriteria(searchRequest, StockSearchCriteria.class);
-        PageSearchResult<StockDto> pageSearchResult = this.stockService.search(criteria);
-        return SearchUtils.pageOf(searchRequest, pageSearchResult);
+    public Page<Stock> search(@RequestBody BaseSearchCriteria<StockSearchCriteria> searchRequest) {
+        return this.stockService.search(searchRequest);
     }
 }

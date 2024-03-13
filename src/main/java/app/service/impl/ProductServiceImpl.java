@@ -1,15 +1,16 @@
 package app.service.impl;
 
-import app.common.search.PageSearchResult;
+import app.common.search.BaseSearchCriteria;
 import app.dto.ProductDto;
 import app.exception.ResourceNotFoundException;
 import app.model.Product;
 import app.repository.ProductRepository;
-import app.search.ProductSearchCriteria;
+import app.common.search.ProductSearchCriteria;
 import app.service.ProductService;
 import app.validation.ProductDtoValidator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,29 +23,21 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDtoValidator productDtoValidator;
 
     @Autowired
-    public ProductServiceImpl(
-            ProductRepository productRepository,
-            ProductDtoValidator productDtoValidator) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductDtoValidator productDtoValidator) {
         this.productRepository = productRepository;
         this.productDtoValidator = productDtoValidator;
     }
 
     @Override
     public ProductDto findById(String id) {
-        Product product = this.productRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+        Product product = this.productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
         return new ProductDto(product);
     }
 
     @Override
     public List<ProductDto> findAll() {
-        return this.productRepository
-                .findAll()
-                .stream()
-                .map(ProductDto::new)
-                .collect(Collectors.toList());
+        return this.productRepository.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
     }
 
     @Override
@@ -61,15 +54,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageSearchResult<ProductDto> search(ProductSearchCriteria criteria) {
-        PageSearchResult<Product> page = this.productRepository.search(criteria);
-        List<ProductDto> dtos = page
-                .getPageData()
-                .stream()
-                .map(ProductDto::new)
-                .collect(Collectors.toList());
-
-        return new PageSearchResult<>(page.getTotalRows(), dtos);
+    public Page<Product> search(BaseSearchCriteria<ProductSearchCriteria> criteria) {
+        return this.productRepository.search(criteria);
     }
 
     private Product dtoToEntity(ProductDto productDto) {

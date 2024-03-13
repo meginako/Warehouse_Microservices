@@ -1,10 +1,11 @@
 package app.repository;
 
-import app.common.search.PageSearchResult;
+import app.common.search.BaseSearchCriteria;
 import app.model.Product;
-import app.search.ProductSearchCriteria;
+import app.common.search.ProductSearchCriteria;
+import org.springframework.data.domain.Page;
 
 public interface ProductRepositoryCustom {
 
-    PageSearchResult<Product> search(ProductSearchCriteria criteria);
+    Page<Product> search(BaseSearchCriteria<ProductSearchCriteria> criteria);
 }

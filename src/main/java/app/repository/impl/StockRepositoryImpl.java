@@ -1,85 +1,33 @@
 package app.repository.impl;
 
-import app.common.search.PageSearchResult;
+import app.common.search.BaseSearchCriteria;
+import app.common.search.StockSearchCriteria;
+import app.common.utils.SearchUtils;
 import app.model.Stock;
 import app.repository.StockRepositoryCustom;
-import app.search.StockSearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StockRepositoryImpl implements StockRepositoryCustom {
+
     @Autowired
     MongoTemplate mongoTemplate;
 
-    //TODO CREATE QUERY LOGIC
     @Override
-    public PageSearchResult<Stock> search(StockSearchCriteria criteria) {
-        return null;
-    }
-/*
-    private static final QStock qStock = QStock.stock;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public PageSearchResult<Stock> search(StockSearchCriteria criteria) {
-        JPAQuery<Stock> query = new JPAQuery<Stock>(entityManager)
-                .from(qStock)
-                .where(predicateOf(criteria))
-                .orderBy(SearchUtils.orderSpecifierOf(criteria, orderMap(), StockSearchCriteria.DEFAULT_ORDER_BY));
-
-        return super.executeQuery(criteria, query);
+    public Page<Stock> search(BaseSearchCriteria<StockSearchCriteria> criteria) {
+        Pageable pageable = SearchUtils.pageableOf(criteria);
+        return new PageImpl<>(mongoTemplate.find(SearchUtils.searchQuery(criteria.getFilterDto()).with(pageable),
+                Stock.class, "stock"),
+                pageable, countStocksQuery(SearchUtils.searchQuery(criteria.getFilterDto())));
     }
 
-    private Predicate predicateOf(StockSearchCriteria criteria) {
-        BooleanBuilder predicate = new BooleanBuilder();
-
-        Long productId = criteria.getProductId();
-        if(productId != null) {
-            predicate.and(qStock.productId.eq(criteria.getProductId()));
-        }
-
-        String productCode = criteria.getProductCode();
-        if(StringUtils.isNotBlank(productCode)) {
-            predicate.and(qStock.productCode.containsIgnoreCase(productCode));
-        }
-
-        Long shelfId = criteria.getShelfId();
-        if(shelfId != null) {
-            predicate.and(qStock.shelfId.eq(shelfId));
-        }
-
-        String shelfCode = criteria.getShelfCode();
-        if(StringUtils.isNotBlank(shelfCode)) {
-            predicate.and(qStock.shelfCode.containsIgnoreCase(shelfCode));
-        }
-
-        Long warehouseId = criteria.getWarehouseId();
-        if(warehouseId != null) {
-            predicate.and(qStock.warehouseId.eq(warehouseId));
-        }
-
-        String warehouseDescription = criteria.getWarehouseDescription();
-        if(StringUtils.isNoneBlank(warehouseDescription)) {
-            predicate.and(qStock.warehouseDescription.containsIgnoreCase(warehouseDescription));
-        }
-
-        return predicate;
+    private long countStocksQuery(Query query) {
+        return mongoTemplate.find(query, Stock.class, "stock").size();
     }
-
-    private HashMap<String, Path> orderMap() {
-        HashMap<String, Path> map = new HashMap<>();
-
-        map.put(StockSearchCriteria.ORDER_BY_PRODUCT_ID, qStock.productId);
-        map.put(StockSearchCriteria.ORDER_BY_PRODUCT_CODE, qStock.productCode);
-        map.put(StockSearchCriteria.ORDER_BY_SHELF_ID, qStock.shelfId);
-        map.put(StockSearchCriteria.ORDER_BY_SHELF_CODE, qStock.shelfCode);
-        map.put(StockSearchCriteria.ORDER_BY_WAREHOUSE_ID, qStock.warehouseId);
-        map.put(StockSearchCriteria.ORDER_BY_WAREHOUSE_DESCRIPTION, qStock.warehouseDescription);
-
-        return map;
-    }*/
 }

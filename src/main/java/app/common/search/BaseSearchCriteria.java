@@ -10,11 +10,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BaseSearchCriteria {
+public class BaseSearchCriteria<T> {
 
     private int pageIndex;
     private int pageSize;
-    private String orderBy;
+    private String orderColumn;
     private Boolean orderAsc;
-    private Boolean paginated;
+    private T filterDto;
 }

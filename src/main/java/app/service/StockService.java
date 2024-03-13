@@ -1,9 +1,11 @@
 package app.service;
 
-import app.common.search.PageSearchResult;
+import app.common.search.BaseSearchCriteria;
 import app.dto.StockDto;
+import app.model.Stock;
 import app.projection.StockProjection;
-import app.search.StockSearchCriteria;
+import app.common.search.StockSearchCriteria;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +16,6 @@ public interface StockService {
 
     List<StockDto> findAll();
 
-    PageSearchResult<StockDto> search(StockSearchCriteria criteria);
+    Page<Stock> search(BaseSearchCriteria<StockSearchCriteria> criteria);
 
 }
